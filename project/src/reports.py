@@ -1,20 +1,22 @@
 from db import get_connection
 
+
 def show_all_students():
     query = """
-    SELECT s.ФИО, s.Группа, k.Название as Кафедра
-    FROM Студенты s
-    JOIN Кафедры k ON s.id_кафедры = k.id
+    SELECT s.full_name, g.group_code, g.course
+    FROM Students s
+    JOIN Groups g ON s.group_id = g.group_id
     """
     try:
         with get_connection() as conn:
-            rows = conn.execute(query).fetchall() [cite: 265]
+            rows = conn.execute(query).fetchall()
             if not rows:
-                print("Данных нет.")
+                print("В базе пока нет записей о студентах.")
                 return
-            print(f"{'ФИО':<25} | {'Группа':<10} | {'Кафедра'}")
+
+            print(f"\n{'ФИО':<25} | {'ГРУППА':<10} | {'КУРС'}")
             print("-" * 50)
             for row in rows:
-                print(f"{row['ФИО']:<25} | {row['Группа']:<10} | {row['Кафедра']}")
+                print(f"{row['full_name']:<25} | {row['group_code']:<10} | {row['course']}")
     except Exception as e:
-        print(f"Ошибка отчета: {e}")
+        print(f"Ошибка при формировании отчета: {e}")
