@@ -1,0 +1,1 @@
+Role: analitic 2
