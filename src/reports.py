@@ -2,8 +2,9 @@ from db import get_connection
 
 
 def show_all_students():
+    # Добавляем s.student_id в SELECT
     query = """
-    SELECT s.full_name, g.group_code, g.course
+    SELECT s.student_id, s.full_name, g.group_code, g.course
     FROM Students s
     JOIN Groups g ON s.group_id = g.group_id
     """
@@ -14,9 +15,10 @@ def show_all_students():
                 print("В базе пока нет записей о студентах.")
                 return
 
-            print(f"\n{'ФИО':<25} | {'ГРУППА':<10} | {'КУРС'}")
-            print("-" * 50)
+            # Добавляем колонку ID в заголовок
+            print(f"\n{'ID':<4} | {'ФИО':<25} | {'ГРУППА':<10} | {'КУРС'}")
+            print("-" * 55)
             for row in rows:
-                print(f"{row['full_name']:<25} | {row['group_code']:<10} | {row['course']}")
+                print(f"{row['student_id']:<4} | {row['full_name']:<25} | {row['group_code']:<10} | {row['course']}")
     except Exception as e:
         print(f"Ошибка при формировании отчета: {e}")
